@@ -42,5 +42,24 @@ class Propietarios extends Model
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public static function editarPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call editar_propietario(?, ?, ?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["nombrePropietario"], $args["numeroPropietario"], $args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function eliminarPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call eliminar_propietario(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
 }
+
 

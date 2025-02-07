@@ -4,7 +4,7 @@ namespace App;
 
 trait ApiResponse
 {
-    protected function successResponse($data, $message = 'Success', $statusCode = 200)
+    protected function successResponse($data, $message = 'Exito!', $statusCode = 200)
     {
         return response()->json([
             'status' => 'success',
@@ -20,6 +20,14 @@ trait ApiResponse
             'status' => 'error',
             'message' => $message,
             'data' => $data,
+        ], $statusCode);
+    }
+
+    protected function updateResponse($message = 'Actualizado con exito...', $statusCode = 200)
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => $message
         ], $statusCode);
     }
 }
