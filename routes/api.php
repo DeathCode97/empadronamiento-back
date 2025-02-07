@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Propietarios\PropietariosController;
 use App\Http\Controllers\Servicios\ServiciosController;
 use App\Http\Controllers\Negocio\NegocioController;
+use App\Http\Controllers\HistorialPagos\HistorialPagosController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
 
@@ -59,3 +60,21 @@ Route::post('/actualizarNegocio', [NegocioController::class, 'actualizarNegocio'
 //ruta para eliminarNegocio
 
 Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocio']);
+
+//historialPagos
+
+//generar historial de pagos
+
+Route::post('/generarHistorialPagos', [HistorialPagosController::class, 'generarHistorialPagos']);
+
+//obtener historial de pagos
+
+Route::post('/obtenerHistorialPagos', [HistorialPagosController::class, 'obtenerHistorialPagos']);
+
+//actualizar historial pagos
+
+Route::post('/actualizarHistorialPagos', [HistorialPagosController::class, 'actualizarHistorialPagos']);
+
+//eliminar historial pagos
+
+Route::post('/eliminarHistorialPagos', [HistorialPagosController::class, 'eliminarHistorialPagos']);
