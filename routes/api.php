@@ -30,6 +30,13 @@ Route::post('/insertarPropietarios', [PropietariosController::class, 'insertarPr
 
 Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
 
+Route::post('/editarPropietario', [PropietariosController::class, 'editarPropietario']);
+
+Route::post('/eliminarPropietario', [PropietariosController::class, 'eliminarPropietario']);
+
+Route::post('/obtenerNegociosPorPropietario', [PropietariosController::class, 'obtenerNegociosPorPropietario']);
+
+
 //ruta de agregar servicios
 Route::post('/agregarServicios', [ServiciosController::class, 'agregarServicios']);
 

@@ -25,9 +25,9 @@ class Propietarios extends Model
         $db = DB::connection()->getPdo();
         // var_dump($args);
         // echo $args["nombre"];
-        $query = "CALL insertar_nuevo_propietario(?)";
+        $query = "CALL insertar_nuevo_propietario(?, ?)";
         $statement = $db->prepare($query);
-        $statement->execute([$args["nombre"]]);
+        $statement->execute([$args["nombre"], $args["numeroPropietario"]]);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -42,5 +42,35 @@ class Propietarios extends Model
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public static function editarPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call editar_propietario(?, ?, ?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["nombrePropietario"], $args["numeroPropietario"], $args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function eliminarPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call eliminar_propietario(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerNegociosPorPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        // var_dump($args["idPropietario"]);
+        $query = "SELECT * FROM obtener_negocios_por_propietario(:idprop)";
+        $statement = $db->prepare($query);
+        $statement->bindParam(':idprop', $args["idPropietario"], PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
 }
+
 

@@ -32,21 +32,6 @@ class PropietariosController extends Controller
         }
     }
 
-    // public function insertarPropietarios(Request $request)
-    // {
-    //     $response = null;
-    //     try {
-
-    //         $datosValidados = $request->validate([
-    //             'nombre' => 'required|string|max:200'
-    //         ]);
-    //         $response = Propietarios::insertarPropietarios($datosValidados);
-    //         return $this->successResponse($response);
-    //     } catch (\Exception $ex) {
-    //         return $this->errorResponse($ex->getMessage(), 500);
-    //     }
-    // }
-
     public function insertarPropietarios(Request $request)
     {
 
@@ -54,12 +39,13 @@ class PropietariosController extends Controller
         try {
 
             $datosValidados = $request->validate([
-                "nombre" => 'required|string|max:200'
+                "nombre" => 'required|string|max:200',
+                'numeroPropietario' => 'required|string|max:20'
             ]);
 
-            $response = Propietarios::insertarPropietarios($datosValidados);
+            Propietarios::insertarPropietarios($datosValidados);
 
-            return $this->successResponse($response, "Insertado con exito");
+            return $this->updateResponse("Insertado con exito");
 
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
@@ -84,4 +70,53 @@ class PropietariosController extends Controller
         }
     }
 
+    public function editarPropietario(Request $request)
+    {
+        $response = null;
+        try {
+
+            $datosValidados = $request->validate([
+                'nombrePropietario' => 'required|string|max:200',
+                'numeroPropietario' => 'required|string|max:20',
+                'idPropietario' => 'required|int'
+            ]);
+
+            Propietarios::editarPropietario($datosValidados);
+            return $this->updateResponse();
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function eliminarPropietario(Request $request)
+    {
+        $response = null;
+        try {
+
+            $datosValidados = $request->validate([
+                'idPropietario' => 'required|int'
+            ]);
+
+            Propietarios::eliminarPropietario($datosValidados);
+            return $this->updateResponse("Eliminado con exito");
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerNegociosPorPropietario(Request $request)
+    {
+        $response = null;
+        try {
+
+            $datosValidados = $request->validate([
+                'idPropietario' => 'required|int'
+            ]);
+
+            $response = Propietarios::obtenerNegociosPorPropietario($datosValidados);
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
 }
