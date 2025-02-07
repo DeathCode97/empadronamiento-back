@@ -39,12 +39,13 @@ class PropietariosController extends Controller
         try {
 
             $datosValidados = $request->validate([
-                "nombre" => 'required|string|max:200'
+                "nombre" => 'required|string|max:200',
+                'numeroPropietario' => 'required|string|max:20'
             ]);
 
-            $response = Propietarios::insertarPropietarios($datosValidados);
+            Propietarios::insertarPropietarios($datosValidados);
 
-            return $this->successResponse($response, "Insertado con exito");
+            return $this->updateResponse("Insertado con exito");
 
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
@@ -98,6 +99,22 @@ class PropietariosController extends Controller
 
             Propietarios::eliminarPropietario($datosValidados);
             return $this->updateResponse("Eliminado con exito");
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerNegociosPorPropietario(Request $request)
+    {
+        $response = null;
+        try {
+
+            $datosValidados = $request->validate([
+                'idPropietario' => 'required|int'
+            ]);
+
+            $response = Propietarios::obtenerNegociosPorPropietario($datosValidados);
+            return $this->successResponse($response);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }

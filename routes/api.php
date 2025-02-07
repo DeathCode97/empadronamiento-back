@@ -33,6 +33,9 @@ Route::post('/editarPropietario', [PropietariosController::class, 'editarPropiet
 
 Route::post('/eliminarPropietario', [PropietariosController::class, 'eliminarPropietario']);
 
+Route::post('/obtenerNegociosPorPropietario', [PropietariosController::class, 'obtenerNegociosPorPropietario']);
+
+
 //ruta de agregar servicios
 Route::post('/agregarServicios', [ServiciosController::class, 'agregarServicios']);
 
