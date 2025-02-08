@@ -67,7 +67,18 @@ class NegocioController extends Controller
                 'id' => 'required|integer',
             ]);
             Negocio::eliminarNegocio($datosValidados);
-            return $this->successResponse(($response));
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerNegociosConPropietarios(Request $request)
+    {
+        $response = null;
+        try {
+            $response = Negocio::obtenerNegociosConPropietarios();
+            return $this->successResponse($response);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }
