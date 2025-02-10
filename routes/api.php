@@ -72,6 +72,8 @@ Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocio']);
 
 Route::post('/obtenerNegociosConPropietarios', [NegocioController::class, 'obtenerNegociosConPropietarios']);
 
+Route::post('/obtenerServiciosPorNegocio', [NegocioController::class, 'obtenerServiciosPorNegocio']);
+
 //historialPagos
 
 //generar historial de pagos

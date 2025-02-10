@@ -83,4 +83,19 @@ class NegocioController extends Controller
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
+
+    public function obtenerServiciosPorNegocio(Request $request)
+    {
+        $response = null;
+        try {
+            $datosValidados = $request->validate([
+                'idPropietario' => 'required|integer',
+            ]);
+            $response = Negocio::obtenerServiciosPorNegocio($datosValidados);
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
 }

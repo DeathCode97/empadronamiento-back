@@ -59,4 +59,13 @@ class Negocio extends Model
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public static function obtenerServiciosPorNegocio($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select * from obtener_servicios_por_negocio(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
 }
