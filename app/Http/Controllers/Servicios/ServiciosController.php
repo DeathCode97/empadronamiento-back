@@ -6,6 +6,9 @@ use App\ApiResponse as AppApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Servicios\Servicios;
+use App\Models\Negocio\Negocio;
+use PhpParser\Node\Stmt\Return_;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ServiciosController extends Controller
 {
@@ -28,7 +31,7 @@ class ServiciosController extends Controller
     }
 
 
-    public function obtenerServicios(Request $request)
+    public function obtenerServicios()
     {
         $response = null;
         try {
@@ -65,6 +68,41 @@ class ServiciosController extends Controller
             ]);
             Servicios::eliminarServicios($datosValidados);
             return $this->successResponse(($response));
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    //FUNCION PARA REGRESAR LOS CHECKS MARCADOS Y NO MARCADOS
+    public function serviciosAsignadosDesasignados(Request $request)
+    {
+        $response = null;
+        $assigned = null;
+        $serviciosAll = null;
+        try {
+            $datosValidados = $request->validate([
+                'folioNegocio' => 'required|integer',
+            ]);
+            // Se obtienen servicios asignados
+            $assigned = Negocio::obtenerServiciosPorNegocio($datosValidados); // manda a traer servicios asignados por id
+            $serviciosAll = Servicios::obtenerServicios(); //manda a traer todos los servicios
+            foreach ($assigned as $key => $obj) {
+                // var_dump($obj->id_servicio);
+                // unset($serviciosAll);
+                foreach($serviciosAll as $keyx => $objx){
+                    if($objx->id_servicio === $obj->id_servicio){
+                        // echo  "key: " .$keyx ;
+                        unset($serviciosAll[$keyx]);
+                    }
+                }
+            }
+            $serviciosAll = array_values($serviciosAll); //Aqui vienen los servicios que NO TIENE AGREGADO EL NEGOCIO
+
+            foreach ($assigned as $key => $objeto) {
+                array_push($serviciosAll, $objeto); //Aqui pusheamos los objetos que si tiene asignado
+            }
+
+            return  $this->successResponse($serviciosAll);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }

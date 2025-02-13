@@ -65,7 +65,38 @@ class Negocio extends Model
         $db = DB::connection()->getPdo();
         $query = "select * from obtener_servicios_por_negocio(?)";
         $statement = $db->prepare($query);
-        $statement->execute([$args["idPropietario"]]);
+        $statement->execute([$args["folioNegocio"]]);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public static function obtenerActividadesEconomicas()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select*from obtener_actividades_economicas()";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function updateNegocio($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "CALL actualizar_negocio(:nombreNegocio, :direccion, :esAmbulante, :idPropietario, :actividadEconomica, :numeroNegocio, :idNegocio);";
+        $statement = $db->prepare($query);
+        /*         $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["id"]]); */
+        $statement->execute(
+            [
+                "nombreNegocio" => $args["nombreNegocio"],
+                "direccion" => $args["direccion"],
+                "esAmbulante" => $args["esAmbulante"],
+                "idPropietario" => $args["idPropietario"],
+                "actividadEconomica" => $args["actividadEconomica"],
+                "numeroNegocio" => $args["numeroTelefonicoNegocio"],
+                "idNegocio" => $args["idNegocio"],
+
+            ]
+        );
+    }
+
+
 }
