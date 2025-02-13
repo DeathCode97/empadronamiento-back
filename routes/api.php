@@ -38,6 +38,9 @@ Route::post('/eliminarPropietario', [PropietariosController::class, 'eliminarPro
 
 Route::post('/obtenerNegociosPorPropietario', [PropietariosController::class, 'obtenerNegociosPorPropietario']);
 
+// Servicios asignados y des asignados
+Route::post('/serviciosAsignadosDesasignados', [ServiciosController::class, 'serviciosAsignadosDesasignados']);
+
 
 //ruta de agregar servicios
 Route::post('/agregarServicios', [ServiciosController::class, 'agregarServicios']);
@@ -50,6 +53,9 @@ Route::post('/actualizarServicios', [ServiciosController::class, 'actualizarServ
 
 //ruta para eliminar servicios
 Route::post('/eliminarServicios', [ServiciosController::class, 'eliminarServicios']);
+
+// Actividad Economica - dropdown negocio
+Route::post('/obtenerActividadesEconomicas', [NegocioController::class, 'obtenerActividadesEconomicas']);
 
 
 //Negocio
@@ -65,6 +71,10 @@ Route::post('/obtenerNegocio', [NegocioController::class, 'obtenerNegocio']);
 //ruta para actualizarNegocio
 
 Route::post('/actualizarNegocio', [NegocioController::class, 'actualizarNegocio']);
+
+// Actualizar negocio Diego
+
+Route::post('/updateNegocio', [NegocioController::class, 'updateNegocio']);
 
 //ruta para eliminarNegocio
 

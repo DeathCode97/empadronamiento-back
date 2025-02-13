@@ -91,10 +91,45 @@ class NegocioController extends Controller
         $response = null;
         try {
             $datosValidados = $request->validate([
-                'idPropietario' => 'required|integer',
+                'folioNegocio' => 'required|integer',
             ]);
             $response = Negocio::obtenerServiciosPorNegocio($datosValidados);
             return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerActividadesEconomicas(Request $request)
+    {
+        $response = null;
+        try {
+            // $datosValidados = $request->validate([
+            //     'idPropietario' => 'required|integer',
+            // ]);
+            $response = Negocio::obtenerActividadesEconomicas();
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function updateNegocio(Request $request)
+    {
+        $response = null;
+        try {
+            $datosValidados = $request->validate([
+                // 'id' => 'required|integer',
+                'nombreNegocio' => 'required|string|max:200',
+                'direccion' => 'required|string|max:200',
+                'esAmbulante' => 'required|boolean',
+                'idPropietario' => 'required|integer',
+                'actividadEconomica' => 'required|integer',
+                'numeroTelefonicoNegocio' => 'required|string|max:20',
+                'idNegocio' => 'required|integer'
+            ]);
+            Negocio::updateNegocio($datosValidados);
+            return $this->successResponse(($response));
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }
