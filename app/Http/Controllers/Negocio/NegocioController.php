@@ -17,10 +17,11 @@ class NegocioController extends Controller
         try {
             $datosValidados = $request->validate([
                 'nombreNegocio' => 'required|string|max:200',
-                'giroComercial' => 'required|string|max:200',
                 'direccion' => 'required|string|max:200',
                 'esAmbulante' => 'required|boolean',
                 'idPropietario' => 'required|integer',
+                'actividadEconomica' => 'required|integer',
+                'numeroTelefonico' => 'required|string|max:10'
             ]);
             $response = Negocio::agregarNegocio($datosValidados);
             return $this->successResponse($response, "Insertado con exito");
@@ -47,10 +48,11 @@ class NegocioController extends Controller
             $datosValidados = $request->validate([
                 'id' => 'required|integer',
                 'nombreNegocio' => 'required|string|max:200',
-                'giroComercial' => 'required|string|max:200',
                 'direccion' => 'required|string|max:200',
                 'esAmbulante' => 'required|boolean',
                 'idPropietario' => 'required|integer',
+                'actividadEconomica' => 'required|integer',
+                'numeroTelefonico' => 'required|string|max:10'
             ]);
             Negocio::actualizarNegocio($datosValidados);
             return $this->successResponse(($response));
@@ -97,5 +99,4 @@ class NegocioController extends Controller
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
-
 }

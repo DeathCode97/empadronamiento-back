@@ -6,6 +6,8 @@ use App\Http\Controllers\Propietarios\PropietariosController;
 use App\Http\Controllers\Servicios\ServiciosController;
 use App\Http\Controllers\Negocio\NegocioController;
 use App\Http\Controllers\HistorialPagos\HistorialPagosController;
+use App\Http\Controllers\Giros\GirosController;
+use App\Http\Controllers\ActividadEconomica\ActividadEconomicaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
 
@@ -91,3 +93,44 @@ Route::post('/actualizarHistorialPagos', [HistorialPagosController::class, 'actu
 //eliminar historial pagos
 
 Route::post('/eliminarHistorialPagos', [HistorialPagosController::class, 'eliminarHistorialPagos']);
+
+
+//giros
+
+//insert giro
+
+Route::post('/agregarGiro', [GirosController::class, 'agregarGiro']);
+
+//obtener giro
+
+Route::post('/obtenerGiros', [GirosController::class, 'obtenerGiros']);
+
+
+//actualizar giro
+
+Route::post('/actualizarGiro', [GirosController::class, 'actualizarGiro']);
+
+//eliminar giro 
+
+Route::post('/eliminarGiro', [GirosController::class, 'eliminarGiro']);
+
+//Actividad economica
+
+//Insertar actividad economica
+
+Route::post('/insertarActividadEconomica', [ActividadEconomicaController::class, 'insertarActividadEconomica']);
+
+
+//obtener actividad economica
+
+Route::post('/obtenerActividadEconomica', [ActividadEconomicaController::class, 'obtenerActividadEconomica']);
+
+
+//actualizar actividad economica
+
+Route::post('/actualizarActividadEconomica', [ActividadEconomicaController::class, 'actualizarActividadEconomica']);
+
+
+//eliminar actividad economica
+
+Route::post('/eliminarActividadEconomica', [ActividadEconomicaController::class, 'eliminarActividadEconomica']);

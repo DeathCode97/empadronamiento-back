@@ -11,9 +11,9 @@ class Negocio extends Model
     public static function agregarNegocio($args)
     {
         $db = DB::connection()->getPdo();
-        $query = "CALL insert_negocio(?,?,?,?,now(),?);";
+        $query = "CALL insert_negocio(?,?,?,now(),?,?,?);";
         $statement = $db->prepare($query);
-        $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"]]);
+        $statement->execute([$args["nombreNegocio"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["actividadEconomica"], $args["numeroTelefonico"]]);
     }
 
     public static function obtenerNegocio()
@@ -25,22 +25,32 @@ class Negocio extends Model
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public static function actualizarNegocio($args)
+    /*     public static function actualizarNegocio($args)
     {
         $db = DB::connection()->getPdo();
-        $query = "CALL actualizar_negocio(:nombreNegocio,:giroComercial,:direccion,:esAmbulante,:idPropietario,:id);";
+        $query = "CALL actualizar_negocio(:nombreNegocio,:direccion,:esAmbulante,:idPropietario,:actividadEconomica,:numeroTelefonico,:id);";
         $statement = $db->prepare($query);
-        /*         $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["id"]]); */
+        //        $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["id"]]); 
+
         $statement->execute(
             [
                 "nombreNegocio" => $args["nombreNegocio"],
-                "giroComercial" => $args["giroComercial"],
                 "direccion" => $args["direccion"],
                 "esAmbulante" => $args["esAmbulante"],
                 "idPropietario" => $args["idPropietario"],
+                "actividadEconomica" => $args["actividadEconomica"],
+                "numeroTelefonico" => $args["numeroTelefonico"],
                 "id" => $args["id"]
             ]
         );
+    } */
+
+    public static function actualizarNegocio($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "CALL actualizar_negocio(?,?,?,now(),?,?,?,?);";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["nombreNegocio"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["actividadEconomica"], $args["numeroTelefonico"], $args["id"]]);
     }
 
     public static function eliminarNegocio($args)
