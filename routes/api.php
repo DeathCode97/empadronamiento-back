@@ -8,6 +8,9 @@ use App\Http\Controllers\Negocio\NegocioController;
 use App\Http\Controllers\HistorialPagos\HistorialPagosController;
 use App\Http\Controllers\Giros\GirosController;
 use App\Http\Controllers\ActividadEconomica\ActividadEconomicaController;
+use App\Http\Controllers\Servicios\Entidades\EntidadesController;
+use App\Http\Controllers\Servicios\CategoriasEntidades\CategoriasEntidadesController;
+use App\Http\Controllers\Servicios\SubcategoriasCategorias\SubcategoriasCategoriasController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
 
@@ -144,3 +147,60 @@ Route::post('/actualizarActividadEconomica', [ActividadEconomicaController::clas
 //eliminar actividad economica
 
 Route::post('/eliminarActividadEconomica', [ActividadEconomicaController::class, 'eliminarActividadEconomica']);
+
+//obtener entidades
+
+Route::post('/obtenerEntidades', [EntidadesController::class, 'obtenerEntidades']);
+
+
+//agregar entidad
+
+Route::post('/agregarEntidad', [EntidadesController::class, 'agregarEntidad']);
+
+
+//actualizar entidad    
+
+Route::post('/actualizarEntidad', [EntidadesController::class, 'actualizarEntidad']);
+
+
+//eliminar entidad  
+
+Route::post('/eliminarEntidad', [EntidadesController::class, 'eliminarEntidad']);
+
+
+//obtener categorias_entidades
+
+Route::post('/obtenerCategoriasEntidades', [CategoriasEntidadesController::class, 'obtenerCategoriasEntidades']);
+
+//agregar categorias_entidades
+
+
+Route::post('/agregarCategoriaEntidad', [CategoriasEntidadesController::class, 'agregarCategoriaEntidad']);
+
+//actualizar categorias_entidades
+
+Route::post('/actualizarCategoriaEntidad', [CategoriasEntidadesController::class, 'actualizarCategoriaEntidad']);
+
+//eliminar categorias_entidades
+
+Route::post('/eliminarCategoriaEntidad', [CategoriasEntidadesController::class, 'eliminarCategoriaEntidad']);
+
+
+//obtener subcategorias_categorias
+
+Route::post('/obtenerSubcategoriasCategorias', [SubcategoriasCategoriasController::class, 'obtenerSubcategoriasCategorias']);
+
+
+//agregar subcategorias_categorias  
+
+Route::post('/agregarSubcategoriaCategoria', [SubcategoriasCategoriasController::class, 'agregarSubcategoriaCategoria']);
+
+
+//actualizar subcategorias_categorias
+
+Route::post('/actualizarSubcategoriaCategoria', [SubcategoriasCategoriasController::class, 'actualizarSubcategoriaCategoria']);
+
+
+//eliminar subcategorias_categorias
+
+Route::post('/eliminarSubcategoriaCategoria', [SubcategoriasCategoriasController::class, 'eliminarSubcategoriaCategoria']);
