@@ -32,6 +32,7 @@ class Servicios extends Model
         $statement = $db->prepare($query);
         $statement->execute([$args["nombreServicio"], $args["descripcionServicio"], $args["frecuenciaServicio"], $args["id"]]);
     }
+
     public static function eliminarServicios($args)
     {
         $db = DB::connection()->getPdo();
@@ -39,4 +40,44 @@ class Servicios extends Model
         $statement = $db->prepare($query);
         $statement->execute([$args["id"]]);
     }
+
+
+
+    public static function obtenerNodosEntidades()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "SELECT generar_servicios_tree();";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerServiciosPC()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select * from obtener_servicios_prociv();";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerServiciosUsodeSuelo()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select * from obtener_servicios_uso_suelo();";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerServiciosBebidasAlc()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select * from obtener_servicios_bebidas_alc();";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
 }

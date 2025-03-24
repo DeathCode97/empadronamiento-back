@@ -30,7 +30,7 @@ class Negocio extends Model
         $db = DB::connection()->getPdo();
         $query = "CALL actualizar_negocio(:nombreNegocio,:direccion,:esAmbulante,:idPropietario,:actividadEconomica,:numeroTelefonico,:id);";
         $statement = $db->prepare($query);
-        //        $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["id"]]); 
+        //        $statement->execute([$args["nombreNegocio"], $args["giroComercial"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["id"]]);
 
         $statement->execute(
             [
@@ -68,6 +68,15 @@ class Negocio extends Model
         $statement = $db->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerInformacionNegocio($folio_negocio)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "select * from obtener_info_negocio(?);";
+        $statement = $db->prepare($query);
+        $statement->execute([$folio_negocio]);
+        return $statement->fetch(PDO::FETCH_OBJ);
     }
 
     public static function obtenerServiciosPorNegocio($args)

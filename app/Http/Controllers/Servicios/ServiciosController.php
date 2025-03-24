@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Servicios\Servicios;
 use App\Models\Negocio\Negocio;
+use PhpParser\Node\Expr\Cast\Array_;
 use PhpParser\Node\Stmt\Return_;
+use stdClass;
 use Symfony\Component\VarDumper\VarDumper;
 
 class ServiciosController extends Controller
@@ -107,4 +109,31 @@ class ServiciosController extends Controller
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
+
+    //Funcion para traer las entidades y agrupar sus categorias y subcategorias para mostrar servicios.
+    public function obtenerNodosEntidades()
+    {
+        $response = null;
+        try {
+            $response = Servicios::obtenerNodosEntidades();
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerServiciosTodos()
+    {
+        $response = null;
+        try {
+            $response["PROTECCION_CIVIL"] = Servicios::obtenerServiciosPC();
+            $response["USO_SUELO"] = Servicios::obtenerServiciosUsodeSuelo();
+            $response["BEBIDAS"] = Servicios::obtenerServiciosBebidasAlc();
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+
 }

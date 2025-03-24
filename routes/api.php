@@ -10,6 +10,7 @@ use App\Http\Controllers\Giros\GirosController;
 use App\Http\Controllers\ActividadEconomica\ActividadEconomicaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
+use App\Http\Controllers\GeneradorQrController;
 
 Route::middleware([SanctumJWTMiddleware::class])->group(function () {
     Route::get('/obtenerFecha', [PropietariosController::class, 'obtenerFecha']);
@@ -26,10 +27,13 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 
 // Esta es la ruta
-Route::post('/insertarPropietarios', [PropietariosController::class, 'insertarPropietarios']);
+Route::post('/generarQr', [GeneradorQrController::class, 'generarQr']);
 
+// GENERADOR
 
+Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
 
+// --------------------------
 Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
 
 Route::post('/editarPropietario', [PropietariosController::class, 'editarPropietario']);
@@ -57,6 +61,11 @@ Route::post('/eliminarServicios', [ServiciosController::class, 'eliminarServicio
 // Actividad Economica - dropdown negocio
 Route::post('/obtenerActividadesEconomicas', [NegocioController::class, 'obtenerActividadesEconomicas']);
 
+// OBTENER NODOS DE ENTIDADES
+Route::post('/obtenerNodosEntidades', [ServiciosController::class, 'obtenerNodosEntidades']);
+
+//OBTENER SOLO LOS SERVICIOS
+Route::post('/obtenerServiciosTodos', [ServiciosController::class, 'obtenerServiciosTodos']);
 
 //Negocio
 
@@ -120,7 +129,7 @@ Route::post('/obtenerGiros', [GirosController::class, 'obtenerGiros']);
 
 Route::post('/actualizarGiro', [GirosController::class, 'actualizarGiro']);
 
-//eliminar giro 
+//eliminar giro
 
 Route::post('/eliminarGiro', [GirosController::class, 'eliminarGiro']);
 
