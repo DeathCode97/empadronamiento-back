@@ -20,29 +20,36 @@ class GeneradorQrController extends Controller
             ]);
             $datosNegocio = Negocio::obtenerInformacionNegocio($datosValidados['folio_negocio']);
 
-            $datosQr = [
-                "FOLIO_NEGOCIO: " => $datosNegocio->folio_negocio,
-                "NOMBRE NEGOCIO: " => $datosNegocio->nombre_negocio,
-                "DIRECCION: " => $datosNegocio->direccion,
-                "ES AMBULANTE: " => $datosNegocio->es_ambulante,
-                "NUMERO TELEFONICO NEGOCIO: " => $datosNegocio->numero_telefonico_negocio,
-                "FECHA DE REGISTRO" => $datosNegocio->fecha_registro,
-                "PROPIETARIO" => $datosNegocio->nombre_propietario,
-                "ACTIVIDAD ECONOMICA" => $datosNegocio->nombre_actividad,
-                "GIRO" => $datosNegocio->nombre_giro
-            ];
+            // $datosQr = [
+            //     "FOLIO_NEGOCIO: " => $datosNegocio->folio_negocio,
+            //     "NOMBRE NEGOCIO: " => $datosNegocio->nombre_negocio,
+            //     "DIRECCION: " => $datosNegocio->direccion,
+            //     "ES AMBULANTE: " => $datosNegocio->es_ambulante ,
+            //     "NUMERO TELEFONICO NEGOCIO: " => $datosNegocio->numero_telefonico_negocio,
+            //     "FECHA DE REGISTRO" => $datosNegocio->fecha_registro,
+            //     "PROPIETARIO" => $datosNegocio->nombre_propietario,
+            //     "ACTIVIDAD ECONOMICA" => $datosNegocio->nombre_actividad,
+            //     "GIRO" => $datosNegocio->nombre_giro,
+            //     "FECHA ULTIMA PAGO" => date('dd/MM/yyy')
+            // ];
+
+            if($datosNegocio->es_ambulante){
+                $ambulante = "si";
+            }else{
+                $ambulante = "no";
+            }
 
             $stringData = "
 FOLIO NEGOCIO: $datosNegocio->folio_negocio,
 NOMBRE NEGOCIO: $datosNegocio->nombre_negocio,
 DIRECCION: $datosNegocio->direccion,
-ES AMBULANTE: $datosNegocio->es_ambulante,
+ES AMBULANTE: $ambulante ,
 NUMERO TELEFONICO NEGOCIO: $datosNegocio->numero_telefonico_negocio,
 FECHA DE REGISTRO: $datosNegocio->fecha_registro,
 PROPIETARIO: $datosNegocio->nombre_propietario,
 ACTIVIDAD ECONOMICA: $datosNegocio->nombre_actividad,
-GIRO: $datosNegocio->nombre_giro
-            ";
+GIRO: $datosNegocio->nombre_giro,
+FECHA ULTIMA DE PAGO: " . date('d/m/Y');
             // return trim($stringData);
             // $jsonDatosQr = json_encode($datosQr);
             $qr = QrCode::format('png')->size('250')->generate($stringData);

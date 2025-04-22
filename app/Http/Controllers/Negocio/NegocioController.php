@@ -6,26 +6,73 @@ use App\ApiResponse as AppApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Negocio\Negocio;
-
+use Exception;
+use PhpParser\Node\Stmt\Echo_;
 
 class NegocioController extends Controller
 {
     use AppApiResponse;
     public function agregarNegocio(Request $request)
     {
-        $response = null;
+        // $response = null;
         try {
+            // Validamos entradas
             $datosValidados = $request->validate([
-                'nombreNegocio' => 'required|string|max:200',
-                'direccion' => 'required|string|max:200',
-                'esAmbulante' => 'required|boolean',
-                'idPropietario' => 'required|integer',
-                'actividadEconomica' => 'required|integer',
-                'numeroTelefonico' => 'required|string|max:10'
+                'nombreNegocio' => 'required| string  | max: 200',
+		        'direccion' => 'required| string | max: 200',
+		        'esAmbulante' => 'required| boolean ',
+		        'idPropietario' => 'required| integer',
+		        'actividadEconomica' => 'required|integer',
+		        'numeroTelefonicoNegocio' => 'required|string|max: 20 ',
+		        'vendeAlcohol' => 'required|boolean',
+		        'tienePublicidad' => 'required| boolean'
             ]);
-            $response = Negocio::agregarNegocio($datosValidados);
-            return $this->successResponse($response, "Insertado con exito");
+
+            // Mandamos la informacion del negocio a insertar, y regresamos el id_negocio con el que fue insertado
+            $responseInsertar = Negocio::agregarNegocio($datosValidados);
+
+            // Seteamos el id a $idNegocio
+            $idNegocio = $responseInsertar[0]->insert_negocios;
+
+            // var_dump($request["servicios"][0]);
+            // Validamos que la request tenga la propiedad servicios
+            if(isset($request["servicios"])){
+                // echo " tiene array, osea inserta servicios ";
+                // Recorremos el array de servicios asignados.
+                foreach ($request["servicios"] as $key) {
+                    // var_dump($key);
+                    if($key){
+                        // echo($key);
+                        Negocio::insertarServiciosNegocio($idNegocio, $key);
+                    }
+                }
+            }else{
+                Negocio::insertarServiciosNegocio($idNegocio, 69);
+            }
+            return $this->updateResponse("Insertado con exito", 200);
         } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function actualizarServiciosDeNegocio(Request $request)
+    {
+        try{
+            $idNegocio = $request['idNegocio'];
+            if(isset($response['servicios'])){
+                foreach ($request["servicios"] as $key) {
+                    // var_dump($key);
+                    if($key){
+                        // echo($key);
+                        Negocio::insertarServiciosNegocio($idNegocio, $key);
+                    }
+                }
+                return $this->updateResponse("Insertado con exito", 200);
+            }else{
+                Negocio::insertarServiciosNegocio($idNegocio, 69);
+            }
+            return $this->updateResponse("Insertado con exito", 200);
+        }catch(Exception $ex){
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
@@ -134,4 +181,6 @@ class NegocioController extends Controller
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
+
+
 }

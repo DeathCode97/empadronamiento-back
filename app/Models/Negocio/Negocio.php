@@ -11,9 +11,29 @@ class Negocio extends Model
     public static function agregarNegocio($args)
     {
         $db = DB::connection()->getPdo();
-        $query = "CALL insert_negocio(?,?,?,now(),?,?,?);";
+
+        $query = "select insert_negocios(?,?,?,?,?,?,?,?);";
         $statement = $db->prepare($query);
-        $statement->execute([$args["nombreNegocio"], $args["direccion"], $args["esAmbulante"], $args["idPropietario"], $args["actividadEconomica"], $args["numeroTelefonico"]]);
+        $statement->execute([
+            $args["nombreNegocio"],
+            $args["direccion"],
+            $args["esAmbulante"],
+            $args["idPropietario"],
+            $args["actividadEconomica"],
+            $args["numeroTelefonicoNegocio"],
+            $args["vendeAlcohol"],
+            $args["tienePublicidad"]
+        ]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function insertarServiciosNegocio($idNegocio, $idServicio)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "CALL insert_negocios_servicios(?, ?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$idNegocio, $idServicio]);
+        // return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     public static function obtenerNegocio()

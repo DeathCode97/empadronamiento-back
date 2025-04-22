@@ -167,12 +167,12 @@ Route::post('/obtenerEntidades', [EntidadesController::class, 'obtenerEntidades'
 Route::post('/agregarEntidad', [EntidadesController::class, 'agregarEntidad']);
 
 
-//actualizar entidad    
+//actualizar entidad
 
 Route::post('/actualizarEntidad', [EntidadesController::class, 'actualizarEntidad']);
 
 
-//eliminar entidad  
+//eliminar entidad
 
 Route::post('/eliminarEntidad', [EntidadesController::class, 'eliminarEntidad']);
 
@@ -200,7 +200,7 @@ Route::post('/eliminarCategoriaEntidad', [CategoriasEntidadesController::class, 
 Route::post('/obtenerSubcategoriasCategorias', [SubcategoriasCategoriasController::class, 'obtenerSubcategoriasCategorias']);
 
 
-//agregar subcategorias_categorias  
+//agregar subcategorias_categorias
 
 Route::post('/agregarSubcategoriaCategoria', [SubcategoriasCategoriasController::class, 'agregarSubcategoriaCategoria']);
 

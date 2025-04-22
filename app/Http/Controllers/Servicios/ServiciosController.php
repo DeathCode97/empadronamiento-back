@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Servicios\Servicios;
 use App\Models\Negocio\Negocio;
+use Exception;
 use PhpParser\Node\Expr\Cast\Array_;
 use PhpParser\Node\Stmt\Return_;
 use stdClass;
@@ -40,6 +41,19 @@ class ServiciosController extends Controller
             $response = Servicios::obtenerServicios();
             return $this->successResponse($response);
         } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerServiciosPorNegocio(Request $request){
+        $response = null;
+        try{
+            $data = $request->validate([
+                'folioNegocio' => 'required|integer'
+            ]);
+            $response = Negocio::obtenerServiciosPorNegocio($data);
+            return $this->successResponse($response);
+        }catch(Exception $ex){
             return $this->errorResponse($ex->getMessage(), 500);
         }
     }
