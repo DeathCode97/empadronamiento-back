@@ -3,68 +3,63 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
-    //
+
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        // Validar los datos del usuario
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:6',
         ]);
-        // Aqui le podemos poner que reciba el rol de usuario y otros parametros de registro de USUARIOS FUNCIONALES DEL SISTEMA
 
+        // Crear el usuario en la base de datos
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
 
-        // $token = $user->createToken('auth_token')->plainTextToken;
+        // Generar el token JWT
+        $token = JWTAuth::fromUser($user);
 
         return response()->json([
-            // 'access_token' => $token,
-            // 'token_type' => 'Bearer',
-            "message" => "Usuario Creado con exito"
-        ]);
+            'message' => 'Usuario registrado exitosamente',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
+
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        $user = User::where('email', $credentials['email'])->first();
-
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['error' => 'Credenciales inválidas'], 401);
-        }
-
-        // Genera un token personal
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'Credenciales incorrectas'], 401);
+        }
+        $user = User::where('email', $request->email)->select('name', 'email')->first();
+
+        return response()->json(['token' => $token, 'info_session' => $user]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        var_dump($request->user());
-        // $request->user()->currentAccessToken()->delete();
-
-
-        // return response()->json(['message' => 'Logged out'], 200);
-        // var_dump($request);
-        // $request->user()->tokens()->delete();
-
-        return response()->json(['message' => 'Sesión cerrada con éxito']);
+        JWTAuth::invalidate(JWTAuth::getToken());
+        Auth::logout();
+        return response()->json(['message' => 'Sesión cerrada correctamente']);
     }
+
 }

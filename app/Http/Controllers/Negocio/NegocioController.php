@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Echo_;
 class NegocioController extends Controller
 {
     use AppApiResponse;
-    public function agregarNegocio(Request $request)
+    public function  agregarNegocio(Request $request)
     {
         // $response = null;
         try {
