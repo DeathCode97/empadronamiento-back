@@ -14,6 +14,7 @@ use App\Http\Controllers\Servicios\SubcategoriasCategorias\SubcategoriasCategori
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
 use App\Http\Controllers\GeneradorQrController;
+use App\Http\Controllers\ProteccionCivil\ProteccionCivilController;
 
 // Route::middleware([SanctumJWTMiddleware::class])->group(function () {
     // });
@@ -31,14 +32,24 @@ use App\Http\Controllers\GeneradorQrController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
-
+Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocioById']);
 
 Route::middleware(['middleware'])->group(function(){
+
+
+    // Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
+
+    Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
+    Route::post('/obtenerRevisonPcPorIdNegocio', [ProteccionCivilController::class, 'obtenerRevisonPcPorIdNegocio']);
+
     Route::post('/generarQr', [GeneradorQrController::class, 'generarQr']);
 
+    Route::post('/insertarPropietarios', [PropietariosController::class, 'insertarPropietarios']);
+    Route::post('/obtenerNegocioPropietario', [PropietariosController::class, 'obtenerNegocioPropietario']);
     // GENERADOR
 
     Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
+    Route::post('/obtenerPropietariosYNegos', [PropietariosController::class, 'obtenerPropietariosYNegos']);
 
     // --------------------------
     Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
@@ -94,7 +105,7 @@ Route::middleware(['middleware'])->group(function(){
 
     //ruta para eliminarNegocio
 
-    Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocio']);
+    // Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocio']);
 
     // Obtener negocio y propietarios
 

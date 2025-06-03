@@ -55,6 +55,17 @@ class PropietariosController extends Controller
 
     }
 
+    public function obtenerPropietariosYNegos(Request $request)
+    {
+        $response = null;
+        try {
+            $response = Propietarios::obtenerPropietariosYNegos();
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
     public function obtenerPropietarios(Request $request)
     {
         $response = null;
@@ -114,6 +125,22 @@ class PropietariosController extends Controller
             ]);
 
             $response = Propietarios::obtenerNegociosPorPropietario($datosValidados);
+            return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function obtenerNegocioPropietario(Request $request)
+    {
+        $response = null;
+        try {
+
+            $datosValidados = $request->validate([
+                'folioNegocio' => 'required|int'
+            ]);
+
+            $response = Propietarios::obtenerNegocioPropietario($datosValidados);
             return $this->successResponse($response);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);

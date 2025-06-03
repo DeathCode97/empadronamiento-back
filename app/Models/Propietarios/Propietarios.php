@@ -42,6 +42,22 @@ class Propietarios extends Model
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public static function obtenerPropietariosYNegos()
+    {
+        $db = DB::connection()->getPdo();
+        // var_dump($args);
+        // echo $args["nombre"];
+        $query = "
+            SELECT p.folio_propietario, p.nombre_propietario, p.numero_telefonico, count(n.propietario) as cantidad_negocio FROM propietarios p
+	        left join negocio n on p.folio_propietario = n.propietario
+	        group by p.folio_propietario, p.nombre_propietario, p.numero_telefonico
+	        order by p.folio_propietario;
+        ";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public static function editarPropietario($args)
     {
         $db = DB::connection()->getPdo();
@@ -67,6 +83,17 @@ class Propietarios extends Model
         $query = "SELECT * FROM obtener_negocios_por_propietario(:idprop)";
         $statement = $db->prepare($query);
         $statement->bindParam(':idprop', $args["idPropietario"], PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function obtenerNegocioPropietario($args)
+    {
+        $db = DB::connection()->getPdo();
+        // var_dump($args["idPropietario"]);
+        $query = "select * from obtener_negocio_propietario(:folioNego);";
+        $statement = $db->prepare($query);
+        $statement->bindParam(':folioNego', $args["folioNegocio"], PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }

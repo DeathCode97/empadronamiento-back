@@ -29,26 +29,26 @@ class NegocioController extends Controller
             ]);
 
             // Mandamos la informacion del negocio a insertar, y regresamos el id_negocio con el que fue insertado
-            $responseInsertar = Negocio::agregarNegocio($datosValidados);
+            Negocio::agregarNegocio($datosValidados);
 
             // Seteamos el id a $idNegocio
-            $idNegocio = $responseInsertar[0]->insert_negocios;
+            // $idNegocio = $responseInsertar[0]->insert_negocios;
 
             // var_dump($request["servicios"][0]);
             // Validamos que la request tenga la propiedad servicios
-            if(isset($request["servicios"])){
-                // echo " tiene array, osea inserta servicios ";
-                // Recorremos el array de servicios asignados.
-                foreach ($request["servicios"] as $key) {
-                    // var_dump($key);
-                    if($key){
-                        // echo($key);
-                        Negocio::insertarServiciosNegocio($idNegocio, $key);
-                    }
-                }
-            }else{
-                Negocio::insertarServiciosNegocio($idNegocio, 69);
-            }
+            // if(isset($request["servicios"])){
+            //     // echo " tiene array, osea inserta servicios ";
+            //     // Recorremos el array de servicios asignados.
+            //     foreach ($request["servicios"] as $key) {
+            //         // var_dump($key);
+            //         if($key){
+            //             // echo($key);
+            //             Negocio::insertarServiciosNegocio($idNegocio, $key);
+            //         }
+            //     }
+            // }else{
+            //     Negocio::insertarServiciosNegocio($idNegocio, 69);
+            // }
             return $this->updateResponse("Insertado con exito", 200);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
@@ -180,7 +180,17 @@ class NegocioController extends Controller
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }
+
     }
 
+    public function eliminarNegocioById()
+    {
+        $response = null;
+        try{
+            return "hola mundo";
+        }catch(Exception $ex){
+
+        }
+    }
 
 }

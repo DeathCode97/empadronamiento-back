@@ -11,7 +11,6 @@ class Negocio extends Model
     public static function agregarNegocio($args)
     {
         $db = DB::connection()->getPdo();
-
         $query = "select insert_negocios(?,?,?,?,?,?,?,?);";
         $statement = $db->prepare($query);
         $statement->execute([
@@ -137,5 +136,13 @@ class Negocio extends Model
         );
     }
 
+    public static function eliminarNegocioPorId()
+    {
+        $db = DB::connection()->getPdo();
+        $query = "";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
 
 }
