@@ -15,7 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\SanctumJWTMiddleware;
 use App\Http\Controllers\GeneradorQrController;
 use App\Http\Controllers\ProteccionCivil\ProteccionCivilController;
-
+use App\Http\Controllers\Notificaciones\NotificacionesController;
 // Route::middleware([SanctumJWTMiddleware::class])->group(function () {
     // });
 
@@ -34,7 +34,14 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocioById']);
 
+Route::post('/insertarNotificacionHacienda', [NotificacionesController::class, 'insertarNotificacionHacienda']);
+
+Route::post('/consultarNotificacionesPorUsuario', [NotificacionesController::class, 'consultarNotificacionesPorUsuario']);
+
 Route::middleware(['middleware'])->group(function(){
+
+
+    Route::post('/consultarNotificacionPorUsuario', [NotificacionesController::class, 'consultarNotificacionPorUsuario']);
 
 
     // Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
@@ -90,6 +97,8 @@ Route::middleware(['middleware'])->group(function(){
     //ruta para agregarNegocio
 
     Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
+
+    Route::post('/obtenerInformacionNegocioQR', [NegocioController::class, 'obtenerInformacionNegocioQR']);
 
     //ruta para obtenerNegocio
 

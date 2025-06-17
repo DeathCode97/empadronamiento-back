@@ -26,6 +26,38 @@ class Negocio extends Model
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public static function obtenerInformacionNegocioQR($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "
+            select
+	            n.folio_negocio,
+	            n.nombre_negocio,
+	            n.direccion,
+	            n.es_ambulante,
+	            n.numero_telefonico_negocio,
+	            n.fecha_registro ,
+	            n.tipo_pago,
+	            n.cuota_ambulantaje,
+	            n.revision_proteccion_civil,
+	            n.es_negocio_nuevo,
+	            n.fecha_pago_servicios,
+	            p.nombre_propietario,
+	            p.numero_telefonico,
+	            ae.nombre_actividad,
+	            g.nombre_giro
+            from negocio n
+	            inner join propietarios p on n.propietario = p.folio_propietario
+	            inner join actividad_economica ae on n.actividad_economica = ae.id_actividad
+	            inner join giros g on ae.pertenece_giro = g.id_giro
+            where n.folio_negocio = ?;";
+        $statement = $db->prepare($query);
+        $statement->execute([
+            $args["folioNegocio"],
+        ]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public static function insertarServiciosNegocio($idNegocio, $idServicio)
     {
         $db = DB::connection()->getPdo();

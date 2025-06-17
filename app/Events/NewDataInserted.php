@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewDataInserted
+class NewDataInserted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,6 +35,8 @@ class NewDataInserted
         // return [
         //     new PrivateChannel('channel-name'),
         // ];
-        return ['notifications'];
+        return [
+            new Channel('notifications')
+        ];
     }
 }

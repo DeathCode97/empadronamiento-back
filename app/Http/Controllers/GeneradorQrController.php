@@ -38,8 +38,8 @@ class GeneradorQrController extends Controller
             }else{
                 $ambulante = "no";
             }
-
-            $stringData = "
+        $stringData = $datosNegocio->folio_negocio;
+            /*$stringData = "
 FOLIO NEGOCIO: $datosNegocio->folio_negocio,
 NOMBRE NEGOCIO: $datosNegocio->nombre_negocio,
 DIRECCION: $datosNegocio->direccion,
@@ -49,7 +49,7 @@ FECHA DE REGISTRO: $datosNegocio->fecha_registro,
 PROPIETARIO: $datosNegocio->nombre_propietario,
 ACTIVIDAD ECONOMICA: $datosNegocio->nombre_actividad,
 GIRO: $datosNegocio->nombre_giro,
-FECHA ULTIMA DE PAGO: " . date('d/m/Y');
+FECHA ULTIMA DE PAGO: " . date('d/m/Y');*/
             // return trim($stringData);
             // $jsonDatosQr = json_encode($datosQr);
             $qr = QrCode::format('png')->size('250')->generate($stringData);

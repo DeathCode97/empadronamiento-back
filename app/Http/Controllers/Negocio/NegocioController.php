@@ -193,4 +193,19 @@ class NegocioController extends Controller
         }
     }
 
+    public function obtenerInformacionNegocioQR(Request $request)
+    {
+        $response = null;
+        try{
+            $datosValidados = $request->validate([
+                'folioNegocio' => 'required|integer',
+            ]);
+            $response = Negocio::obtenerInformacionNegocioQR($datosValidados);
+            return $this->successResponse($response);
+        }catch(Exception $ex){
+
+        }
+    }
+
+
 }
