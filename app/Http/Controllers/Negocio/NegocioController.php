@@ -17,38 +17,37 @@ class NegocioController extends Controller
         // $response = null;
         try {
             // Validamos entradas
-            $datosValidados = $request->validate([
-                'nombreNegocio' => 'required| string  | max: 200',
-		        'direccion' => 'required| string | max: 200',
-		        'esAmbulante' => 'required| boolean ',
-		        'idPropietario' => 'required| integer',
-		        'actividadEconomica' => 'required|integer',
-		        'numeroTelefonicoNegocio' => 'required|string|max: 20 ',
-		        'vendeAlcohol' => 'required|boolean',
-		        'tienePublicidad' => 'required| boolean'
-            ]);
+            if($request->esAmbulante === 0){
+                $datosValidados = $request->validate([
+                    'nombreNegocio' => 'required| string  | max: 200',
+                    'direccion' => 'required| string | max: 200',
+                    'esAmbulante' => 'required| boolean',
+                    'idPropietario' => 'required| integer',
+                    'actividadEconomica' => 'required|integer',
+                    'numeroTelefonicoNegocio' => 'required|string|max: 20 ',
+                    'vendeAlcohol' => 'required|boolean',
+                    'tienePublicidad' => 'required| boolean'
+                ]);
 
-            // Mandamos la informacion del negocio a insertar, y regresamos el id_negocio con el que fue insertado
-            Negocio::agregarNegocio($datosValidados);
+                // Mandamos la informacion del negocio a insertar
+                Negocio::agregarNegocio($datosValidados);
+            }else{
+                $datosValidados = $request->validate([
+                    'nombreNegocio' => 'required| string  | max: 200',
+                    'direccion' => 'required| string | max: 200',
+                    'esAmbulante' => 'required| boolean',
+                    'idPropietario' => 'required| integer',
+                    'actividadEconomica' => 'required|integer',
+                    'numeroTelefonicoNegocio' => 'required|string|max: 20 ',
+                    'vendeAlcohol' => 'required|boolean',
+                    'tienePublicidad' => 'required| boolean',
+                    'tipoPago' => 'required|string',
+                    'cuotaDePago' => 'required|numeric'
+                ]);
 
-            // Seteamos el id a $idNegocio
-            // $idNegocio = $responseInsertar[0]->insert_negocios;
-
-            // var_dump($request["servicios"][0]);
-            // Validamos que la request tenga la propiedad servicios
-            // if(isset($request["servicios"])){
-            //     // echo " tiene array, osea inserta servicios ";
-            //     // Recorremos el array de servicios asignados.
-            //     foreach ($request["servicios"] as $key) {
-            //         // var_dump($key);
-            //         if($key){
-            //             // echo($key);
-            //             Negocio::insertarServiciosNegocio($idNegocio, $key);
-            //         }
-            //     }
-            // }else{
-            //     Negocio::insertarServiciosNegocio($idNegocio, 69);
-            // }
+                // Mandamos la informacion del negocio a insertar
+                Negocio::agregarNegocioAmbulante($datosValidados);
+            }
             return $this->updateResponse("Insertado con exito", 200);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
@@ -183,13 +182,30 @@ class NegocioController extends Controller
 
     }
 
-    public function eliminarNegocioById()
+    public function eliminarNegocioById(Request $request)
     {
-        $response = null;
-        try{
-            return "hola mundo";
-        }catch(Exception $ex){
 
+        try{
+            $datosValidados = $request->validate([
+                'folioNegocio' => 'required|int',
+            ]);
+            Negocio::eliminarNegocioById($datosValidados);
+            return $this->updateResponse("Eliminado con éxito");
+        }catch(Exception $ex){
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function registrarPagoNegocio(Request $request)
+    {
+        try{
+            $datosValidados = $request->validate([
+                'folioNegocio' => 'required|int',
+            ]);
+            Negocio::pagarCuotaNegocio($datosValidados);
+            return $this->updateResponse("Actualizado con éxito");
+        }catch(Exception $ex){
+            return $this->errorResponse($ex->getMessage(), 500);
         }
     }
 
@@ -203,7 +219,7 @@ class NegocioController extends Controller
             $response = Negocio::obtenerInformacionNegocioQR($datosValidados);
             return $this->successResponse($response);
         }catch(Exception $ex){
-
+            return $this->errorResponse($ex->getMessage(), 500);
         }
     }
 

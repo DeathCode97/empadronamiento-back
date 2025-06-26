@@ -115,6 +115,22 @@ class PropietariosController extends Controller
         }
     }
 
+    public function eliminarPropietarioSoft(Request $request)
+    {
+
+        try{
+            $datosValidados = $request->validate([
+                'idPropietario' => 'required|int',
+            ]);
+            Propietarios::eliminarPropietarioSoft($datosValidados);
+
+            // Negocio::eliminarNegocioById($datosValidados);
+            return $this->updateResponse("Eliminado con éxito");
+        }catch(\Exception $ex){
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
     public function obtenerNegociosPorPropietario(Request $request)
     {
         $response = null;

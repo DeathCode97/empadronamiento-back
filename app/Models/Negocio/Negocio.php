@@ -26,6 +26,25 @@ class Negocio extends Model
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public static function agregarNegocioAmbulante($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "CALL insertar_negocios_ambulantes(?,?,?,?,?,?,?,?,?,?);";
+        $statement = $db->prepare($query);
+        $statement->execute([
+            $args["nombreNegocio"],
+            $args["direccion"],
+            $args["esAmbulante"],
+            $args["idPropietario"],
+            $args["actividadEconomica"],
+            $args["numeroTelefonicoNegocio"],
+            $args["vendeAlcohol"],
+            $args["tienePublicidad"],
+            $args["tipoPago"],
+            $args["cuotaDePago"]
+        ]);
+    }
+
     public static function obtenerInformacionNegocioQR($args)
     {
         $db = DB::connection()->getPdo();
@@ -119,6 +138,24 @@ class Negocio extends Model
         $statement = $db->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function eliminarNegocioById($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call eliminar_negocio_by_id(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["folioNegocio"]]);
+        // return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function pagarCuotaNegocio($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call registrar_pago_negocio(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["folioNegocio"]]);
+        // return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     public static function obtenerInformacionNegocio($folio_negocio)

@@ -32,18 +32,21 @@ use App\Http\Controllers\Notificaciones\NotificacionesController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
-Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocioById']);
+// Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
 
 Route::post('/insertarNotificacionHacienda', [NotificacionesController::class, 'insertarNotificacionHacienda']);
 
 Route::post('/consultarNotificacionesPorUsuario', [NotificacionesController::class, 'consultarNotificacionesPorUsuario']);
 
+Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocioById']);
 Route::middleware(['middleware'])->group(function(){
+
+    Route::post('/registrarPagoNegocio', [NegocioController::class, 'registrarPagoNegocio']);
 
 
     Route::post('/consultarNotificacionPorUsuario', [NotificacionesController::class, 'consultarNotificacionPorUsuario']);
 
-
+    Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
     // Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
 
     Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
@@ -63,7 +66,7 @@ Route::middleware(['middleware'])->group(function(){
 
     Route::post('/editarPropietario', [PropietariosController::class, 'editarPropietario']);
 
-    Route::post('/eliminarPropietario', [PropietariosController::class, 'eliminarPropietario']);
+    Route::post('/eliminarPropietarioSoft', [PropietariosController::class, 'eliminarPropietarioSoft']);
 
     Route::post('/obtenerNegociosPorPropietario', [PropietariosController::class, 'obtenerNegociosPorPropietario']);
 
@@ -96,7 +99,7 @@ Route::middleware(['middleware'])->group(function(){
 
     //ruta para agregarNegocio
 
-    Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
+
 
     Route::post('/obtenerInformacionNegocioQR', [NegocioController::class, 'obtenerInformacionNegocioQR']);
 

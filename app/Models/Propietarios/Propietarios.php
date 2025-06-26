@@ -50,6 +50,7 @@ class Propietarios extends Model
         $query = "
             SELECT p.folio_propietario, p.nombre_propietario, p.numero_telefonico, count(n.propietario) as cantidad_negocio FROM propietarios p
 	        left join negocio n on p.folio_propietario = n.propietario
+	        where p.soft_delete = true
 	        group by p.folio_propietario, p.nombre_propietario, p.numero_telefonico
 	        order by p.folio_propietario;
         ";
@@ -71,6 +72,15 @@ class Propietarios extends Model
     {
         $db = DB::connection()->getPdo();
         $query = "call eliminar_propietario(?)";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["idPropietario"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public static function eliminarPropietarioSoft($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "call eliminar_propietario_soft(?)";
         $statement = $db->prepare($query);
         $statement->execute([$args["idPropietario"]]);
         return $statement->fetchAll(PDO::FETCH_OBJ);
