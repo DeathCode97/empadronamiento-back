@@ -14,20 +14,22 @@ class NotificacionesModel extends Model
     public static function consultarNotificacionesPorUsuario($args)
     {
         $db = DB::connection()->getPdo();
-        $query = "SELECT * FROM notificaciones where para = ?;";
-        $statement = $db->prepare($query);
-        $statement->execute($args["usuario"]);
-        return $statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public static function consultarNotificacionPorUsuario($args)
-    {
-        $db = DB::connection()->getPdo();
-        $query = "SELECT info AS label FROM notificaciones where para = ?;";
+        $query = "SELECT * FROM notificaciones where para = ? and visto = FALSE order by fecha_notificacion asc;";
         $statement = $db->prepare($query);
         $statement->execute([$args["usuario"]]);
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public static function vistearNorificacion($args)
+    {
+        $db = DB::connection()->getPdo();
+        $query = "update notificaciones set visto = true where id_notification = ?";
+        $statement = $db->prepare($query);
+        $statement->execute([$args["folioNotificacion"]]);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
 
     public static function insertarNotificacionHacienda()
     {

@@ -51,4 +51,30 @@ class ProteccionCivilController extends Controller
         }
     }
 
+    public function actualizarRevisionPc(Request $request)
+    {
+        $response = null;
+        try {
+            // return $request;
+            ProteccionCivil::actualizarRevisionPc($request);
+            return $this->updateResponse();
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function autorizarRevisionPc(Request $request)
+    {
+        // $response = null;
+        try {
+            // return $request;
+            $datosValidados = $request->validate([
+                "idNegocio" => 'required | integer'
+            ]);
+            ProteccionCivil::autorizarRevisionPc($datosValidados);
+            return $this->updateResponse();
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
 }

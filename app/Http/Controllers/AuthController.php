@@ -13,19 +13,28 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
+    public function example()
+    {
+        return ["Axia" => "perrota"];
+    }
+
     public function register(Request $request)
     {
         // Validar los datos del usuario
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'username' => 'required|string|max:100',
+            'rol' => 'required|string|max:100',
+            'password' => 'required|string',
         ]);
+
+        // return "hola";
 
         // Crear el usuario en la base de datos
         $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'username' => $data['username'],
+            'rol' => $data['rol'],
             'password' => Hash::make($data['password']),
         ]);
 
@@ -43,14 +52,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'username' => 'required|string',
+            'password' => 'required|string'
         ]);
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
-        $user = User::where('email', $request->email)->select('name', 'email')->first();
+        $user = User::where('username', $request->username)->select('name', 'username', 'rol')->first();
 
         return response()->json(['token' => $token, 'info_session' => $user]);
     }

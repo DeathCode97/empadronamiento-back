@@ -22,9 +22,24 @@ class NotificacionesController extends Controller
             $datosValidados = $request->validate([
                 'usuario' => 'required|string|max:10'
             ]);
-            $response = NotificacionesModel::consultarNotificacionPorUsuario($datosValidados);
+            $response = NotificacionesModel::consultarNotificacionesPorUsuario($datosValidados);
             // $response = ActividadEconomica::insertarActividadEconomica($datosValidados);
             return $this->successResponse($response);
+        } catch (\Exception $ex) {
+            return $this->errorResponse($ex->getMessage(), 500);
+        }
+    }
+
+    public function vistearNorificacion(Request $request)
+    {
+        $response = null;
+        try {
+            $datosValidados = $request->validate([
+                'folioNotificacion' => 'required|int'
+            ]);
+            $response = NotificacionesModel::vistearNorificacion($datosValidados);
+            // $response = ActividadEconomica::insertarActividadEconomica($datosValidados);
+            return $this->updateResponse($response);
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 500);
         }

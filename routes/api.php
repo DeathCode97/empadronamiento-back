@@ -16,30 +16,28 @@ use App\Http\Middleware\SanctumJWTMiddleware;
 use App\Http\Controllers\GeneradorQrController;
 use App\Http\Controllers\ProteccionCivil\ProteccionCivilController;
 use App\Http\Controllers\Notificaciones\NotificacionesController;
-// Route::middleware([SanctumJWTMiddleware::class])->group(function () {
-    // });
 
-    // Route::get('/user', function (Request $request) {
-        //     return $request->user();
-        // })->middleware('auth:sanctum');
-
-        // Route::post('/register', [AuthController::class, 'register']);
-        // Route::post('/login', [AuthController::class, 'login']);
-        // Route::post('/logout', [AuthController::class, 'logout']);
-
-        // Route::get('/obtenerFecha', [PropietariosController::class, 'obtenerFecha']);
 
 Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
+Route::post('example', [AuthController::class, 'example']);
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout']);
-// Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
+
+Route::post('/vistearNorificacion', [NotificacionesController::class, 'vistearNorificacion']);
 
 Route::post('/insertarNotificacionHacienda', [NotificacionesController::class, 'insertarNotificacionHacienda']);
 
 Route::post('/consultarNotificacionesPorUsuario', [NotificacionesController::class, 'consultarNotificacionesPorUsuario']);
 
 Route::post('/eliminarNegocio', [NegocioController::class, 'eliminarNegocioById']);
+
+
 Route::middleware(['middleware'])->group(function(){
+    Route::post('/autorizarRevisionPc', [ProteccionCivilController::class, 'autorizarRevisionPc']);
+    Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
+    Route::post('/actualizarRevisionPc', [ProteccionCivilController::class, 'actualizarRevisionPc']);
+    Route::post('/obtenerRevisonPcPorIdNegocio', [ProteccionCivilController::class, 'obtenerRevisonPcPorIdNegocio']);
+    Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
 
     Route::post('/registrarPagoNegocio', [NegocioController::class, 'registrarPagoNegocio']);
 
@@ -49,8 +47,6 @@ Route::middleware(['middleware'])->group(function(){
     Route::post('/agregarNegocio', [NegocioController::class, 'agregarNegocio']);
     // Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
 
-    Route::post('/insertarRevisionPc', [ProteccionCivilController::class, 'insertarRevisionPc']);
-    Route::post('/obtenerRevisonPcPorIdNegocio', [ProteccionCivilController::class, 'obtenerRevisonPcPorIdNegocio']);
 
     Route::post('/generarQr', [GeneradorQrController::class, 'generarQr']);
 
@@ -58,11 +54,10 @@ Route::middleware(['middleware'])->group(function(){
     Route::post('/obtenerNegocioPropietario', [PropietariosController::class, 'obtenerNegocioPropietario']);
     // GENERADOR
 
-    Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
     Route::post('/obtenerPropietariosYNegos', [PropietariosController::class, 'obtenerPropietariosYNegos']);
 
     // --------------------------
-    Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
+    // Route::post('/obtenerPropietarios', [PropietariosController::class, 'obtenerPropietarios']);
 
     Route::post('/editarPropietario', [PropietariosController::class, 'editarPropietario']);
 
